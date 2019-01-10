@@ -10,12 +10,21 @@ import UIKit
 
 class InfoViewController: UIViewController {
 
+    @IBOutlet weak var versionControl: UILabel!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        pushActualVersion()
     }
     
+    
+    func pushActualVersion() {
+        versionControl.text = "version: 1.0.1"
+    }
 
     /*
     // MARK: - Navigation
