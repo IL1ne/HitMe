@@ -27,7 +27,6 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSlider()
-        newGame()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,6 +41,8 @@ class GameViewController: UIViewController {
     func configureSlider() {
         thumbslider.setThumbImage(UIImage(named: "bulleye"), for:    .normal)
         thumbslider.setThumbImage(UIImage(named: "bulleye"), for:    .highlighted)
+    
+        newGame()
     }
     
     func randomLabelGenerator() {
@@ -58,6 +59,27 @@ class GameViewController: UIViewController {
         self.scoreLabel.text = String(actualScore)
     }
     
+    func showMessage() {
+        let messege = "Our current value of slider is \(self.currentValueOfSlider)"
+        let alert = UIAlertController(title: "My Alert", message: messege, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            NSLog("The \"OK\" alert occured.")
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func getTry() {
+        if  self.currentValueOfSlider == self.currentRandomValue {
+            self.actualScore += 1
+            self.actualRoundIndex += 1
+            self.randomLabelGenerator()
+        } else {
+            self.actualRoundIndex += 1
+        }
+        self.roundLabel.text = String(actualRoundIndex)
+        self.scoreLabel.text = String(actualScore)
+    }
+    
     // - Action
     @IBAction func moveSlider(_ slider: UISlider) {
         let sliderPosition = Int(round(slider.value))
@@ -69,23 +91,9 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func tapBttnHitMe(_ sender: Any) {
+        getTry()
+        showMessage()
         
-        if  self.currentValueOfSlider == self.currentRandomValue {
-            self.actualScore += 1
-            self.actualRoundIndex += 1
-            self.randomLabelGenerator()
-        } else {
-            self.actualRoundIndex += 1
-        }
-        
-        let messege = "Our current value of slider - \(self.currentValueOfSlider)"
-        let alert = UIAlertController(title: "My Alert", message: messege, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-            NSLog("The \"OK\" alert occured.")
-        }))
-        self.present(alert, animated: true, completion: nil)
-        self.roundLabel.text = String(actualRoundIndex)
-        self.scoreLabel.text = String(actualScore)
     }
     
 }
